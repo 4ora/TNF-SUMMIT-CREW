@@ -3,17 +3,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
-import { 
-  Menu, 
-  Bell, 
-  Compass, 
-  User, 
-  Users, 
-  Home as HomeIcon, 
-  ChevronRight, 
-  Flame, 
-  Award, 
-  MapPin, 
+import {
+  Menu,
+  Bell,
+  Compass,
+  User,
+  Users,
+  Home as HomeIcon,
+  ChevronRight,
+  Flame,
+  Award,
+  MapPin,
   Sun,
   Activity,
   Play,
@@ -26,7 +26,8 @@ import {
   QrCode,
   Check,
   Download,
-  Trash2
+  Trash2,
+  FileText
 } from "lucide-react";
 
 // Lucide 모듈 버전별 누락을 방지하기 위해 커스텀 SVG 인스타그램 아이콘 선언
@@ -169,7 +170,7 @@ export default function AppContainer() {
     speed: 0.0,
     ploggingWeight: 0.0 // LNT 플로깅 수거 무게 (kg)
   });
-  
+
   // LNT 플로깅 챌린지 셋업 변수
   const [isLntMode, setIsLntMode] = useState<boolean>(false);
   const [selectedCourse, setSelectedCourse] = useState<string>("북한산 우이암 코스");
@@ -186,7 +187,7 @@ export default function AppContainer() {
   const [returnMethod, setReturnMethod] = useState<"store" | "pickup" | null>(null);
   const [showQRModal, setShowQRModal] = useState<boolean>(false);
   const [showSetupModal, setShowSetupModal] = useState<boolean>(false);
-  
+
   // ☰ 메뉴 드로어 및 리셋 확인 창
   const [showDrawer, setShowDrawer] = useState<boolean>(false);
 
@@ -292,7 +293,7 @@ export default function AppContainer() {
       ...prev,
       ploggingWeight: parseFloat((prev.ploggingWeight + 0.15).toFixed(2))
     }));
-    
+
     // 네온그린 미세 햅틱 폭죽 연출
     confetti({
       particleCount: 15,
@@ -300,7 +301,7 @@ export default function AppContainer() {
       origin: { y: 0.75, x: 0.25 },
       colors: ["#39FF14", "#FFFFFF"]
     });
-    
+
     showToast("쓰레기 회수 성공 (LNT 플로깅 +0.15kg)");
   };
 
@@ -370,7 +371,7 @@ export default function AppContainer() {
     if (!lastExpeditionSummary) return;
 
     const gearUsed = gears.find(g => g.id === lastExpeditionSummary.gearId)?.name || "Summit Equipment";
-    
+
     // 1. 새로운 커뮤니티 피드 업로드
     const newFeed: FeedItem = {
       id: `feed-${Date.now()}`,
@@ -406,7 +407,7 @@ export default function AppContainer() {
     // 3. 챌린지 성공 및 마일리지 적립 (5000M)
     setChallengeCompleted(true);
     setChallengeProgress(100);
-    
+
     let currentM = mileage;
     const targetM = mileage + 5000;
     const interval = setInterval(() => {
@@ -434,13 +435,13 @@ export default function AppContainer() {
     setActiveTab("community");
     setJournalContent("");
     setIsLntMode(false);
-    
+
     confetti({
       particleCount: 100,
       spread: 80,
       colors: ["#E2231A", "#FFFFFF", "#39FF14"]
     });
-    
+
     showToast("저널 발행 완료! 마일리지 +5,000 M가 적립되었습니다.");
   };
 
@@ -450,7 +451,7 @@ export default function AppContainer() {
       showToast("하나 이상의 진단 문항을 선택하셔야 판정 라벨이 도출됩니다.");
       return;
     }
-    
+
     // 점검 완료 후 수선 접수로 다이렉트 이행
     if (activeGearDetail) {
       setGears(prev => prev.map(g => {
@@ -468,7 +469,7 @@ export default function AppContainer() {
   // 장비 반납(Return) 및 ESG 수치 업데이트
   const handleReturnConfirm = () => {
     if (!activeGearDetail) return;
-    
+
     setGears(prev => prev.map(g => {
       if (g.id === activeGearDetail.id) {
         return { ...g, status: "RECYCLED" };
@@ -501,7 +502,7 @@ export default function AppContainer() {
     setShowReturnModal(false);
     setActiveGearDetail(null);
     setActiveTab("my");
-    
+
     confetti({
       particleCount: 150,
       spread: 90,
@@ -543,10 +544,10 @@ export default function AppContainer() {
 
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-neutral-950 font-sans min-h-screen text-white select-none relative">
-      
+
       {/* 390px 모바일 뷰포트 프레임 */}
       <div className="w-full max-w-[390px] h-[844px] bg-black border-x border-neutral-900 shadow-2xl relative flex flex-col justify-between overflow-hidden rounded-[40px]">
-        
+
         {/* 상단 노치 바 데코 */}
         <div className="w-full h-7 bg-black flex justify-between items-center px-6 text-[11px] font-mono text-neutral-500 z-50">
           <span>01:07</span>
@@ -559,13 +560,13 @@ export default function AppContainer() {
 
         {/* 상단 헤더 */}
         <header className="flex items-center justify-between px-4 py-3 border-b border-neutral-900 bg-black/85 backdrop-blur-md sticky top-0 z-40">
-          <button 
+          <button
             onClick={() => setShowDrawer(true)}
             className="text-white hover:text-neutral-400 p-1"
           >
             <Menu size={20} className="stroke-[1.5]" />
           </button>
-          
+
           <div className="flex items-center gap-1">
             <span className="text-[10px] font-black tracking-[0.25em] text-white">THE NORTH FACE</span>
             <div className="w-[14px] h-[9px] flex flex-col justify-between">
@@ -575,7 +576,7 @@ export default function AppContainer() {
             </div>
           </div>
 
-          <button 
+          <button
             onClick={() => showToast("읽지 않은 수신 알림 메시지가 없습니다.")}
             className="text-white hover:text-neutral-400 p-1 relative"
           >
@@ -588,10 +589,10 @@ export default function AppContainer() {
             스크린 컴포넌트 라우팅
         ----------------------------------------- */}
         <div className="flex-1 overflow-y-auto px-4 py-5 space-y-6 scrollbar-none pb-24 z-10">
-          
+
           {/* 1. HOME TAB */}
           {activeTab === "home" && !showSummaryScreen && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -652,7 +653,7 @@ export default function AppContainer() {
                 </div>
                 <div className="space-y-1.5">
                   <div className="w-full bg-neutral-800 h-1.5 rounded-full overflow-hidden">
-                    <div 
+                    <div
                       className={`h-full rounded-full transition-all duration-500 ${challengeCompleted ? "bg-[#39FF14]" : "bg-neutral-400"}`}
                       style={{ width: `${challengeProgress}%` }}
                     ></div>
@@ -739,14 +740,14 @@ export default function AppContainer() {
 
           {/* 2. EXPLORE TAB */}
           {activeTab === "explore" && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="space-y-4"
             >
               <h2 className="text-xl font-black tracking-tight text-white uppercase font-mono">Explore Trails</h2>
-              
+
               <div className="w-full bg-neutral-900 border border-neutral-800 rounded-lg p-2.5 flex items-center gap-2 text-neutral-500 text-xs cursor-pointer">
                 <span>🔍 코스, 피크, 또는 크루 검색...</span>
               </div>
@@ -771,15 +772,15 @@ export default function AppContainer() {
 
               <div className="space-y-3">
                 <h3 className="text-xs font-mono text-neutral-500 uppercase">Recommended Peak Courses</h3>
-                
+
                 {[
                   { name: "설악산 대청봉 최단코스", level: "전문가", dist: "12.4 km", time: "5.5h", gear: "Futurelight L5 Jacket" },
                   { name: "지리산 천왕봉 코스", level: "전문가", dist: "14.2 km", time: "6.0h", gear: "VECTIV Trail Shoes" },
                   { name: "북한산 우이암 코스", level: "중급", dist: "4.2 km", time: "2.5h", gear: "Futurelight L5 Jacket" }
                 ].map((course, idx) => (
-                  <div 
+                  <div
                     key={idx}
-                    onClick={() => handleStartSetup(course.name)} 
+                    onClick={() => handleStartSetup(course.name)}
                     className="bg-neutral-900 border border-neutral-800 p-4 rounded-xl cursor-pointer hover:border-neutral-700 transition-colors"
                   >
                     <div className="flex justify-between items-start mb-2">
@@ -800,7 +801,7 @@ export default function AppContainer() {
 
           {/* 3. RECORD TAB */}
           {activeTab === "record" && !showSummaryScreen && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -825,11 +826,11 @@ export default function AppContainer() {
                 <svg className="absolute inset-0 w-full h-full" viewBox="0 0 200 200">
                   <path d="M30,170 Q70,90 100,120 T170,40" fill="none" stroke="#262626" strokeWidth="3" />
                   {isRecording && (
-                    <motion.path 
-                      d="M30,170 Q70,90 100,120 T170,40" 
-                      fill="none" 
-                      stroke="#E2231A" 
-                      strokeWidth="3" 
+                    <motion.path
+                      d="M30,170 Q70,90 100,120 T170,40"
+                      fill="none"
+                      stroke="#E2231A"
+                      strokeWidth="3"
                       initial={{ pathLength: 0 }}
                       animate={{ pathLength: Math.min(gpsStats.distance / 4.2, 1) }}
                       transition={{ ease: "linear" }}
@@ -841,7 +842,7 @@ export default function AppContainer() {
 
                 {/* 2. LNT 플로깅 챌린지 줍기 버튼 인터랙션 */}
                 {isRecording && isLntMode && (
-                  <motion.button 
+                  <motion.button
                     whileTap={{ scale: 0.9 }}
                     onClick={handlePloggingPick}
                     className="absolute bottom-3 left-3 bg-[#39FF14] text-black w-12 h-12 rounded-full flex items-center justify-center shadow-lg shadow-[#39FF14]/30 z-20"
@@ -849,7 +850,7 @@ export default function AppContainer() {
                     <Trash2 size={20} className="stroke-[2.5]" />
                   </motion.button>
                 )}
-                
+
                 <div className="absolute bottom-3 right-3 bg-black/80 px-2 py-1 rounded text-[9px] font-mono border border-neutral-800">
                   {isLntMode ? "LNT PLOGGING SIMULATOR" : "GPS SIMULATOR"}
                 </div>
@@ -869,7 +870,7 @@ export default function AppContainer() {
                   <span className="text-[10px] text-neutral-500 uppercase font-mono block">ALTITUDE</span>
                   <span className="text-2xl font-black tracking-tight text-white">{gpsStats.elevation} m</span>
                 </div>
-                
+
                 {/* LNT 모드일 때는 속도 대신 줍기 중량 표시 */}
                 {isLntMode ? (
                   <div className="bg-neutral-900 border border-neutral-800 p-4 rounded-xl text-center space-y-1 border-[#39FF14]/30">
@@ -895,7 +896,7 @@ export default function AppContainer() {
               {/* 기록 제어 */}
               <div className="pt-2">
                 {!isRecording ? (
-                  <button 
+                  <button
                     onClick={() => handleStartSetup(selectedCourse)}
                     className="w-full bg-[#E2231A] py-4 rounded-xl text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2"
                   >
@@ -903,14 +904,14 @@ export default function AppContainer() {
                   </button>
                 ) : (
                   <div className="grid grid-cols-2 gap-4">
-                    <button 
+                    <button
                       onClick={togglePause}
                       className="bg-neutral-900 border border-neutral-800 py-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2"
                     >
                       <Pause size={16} /> {isPaused ? "재개" : "일시정지"}
                     </button>
-                    
-                    <button 
+
+                    <button
                       onClick={handleFinishRecording}
                       className="bg-[#E2231A] hover:bg-[#c11c14] py-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 text-white shadow-lg shadow-red-950/20"
                     >
@@ -924,7 +925,7 @@ export default function AppContainer() {
 
           {/* 4. COMMUNITY TAB */}
           {activeTab === "community" && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -956,7 +957,7 @@ export default function AppContainer() {
                         <span>{feed.location}</span>
                       </div>
                     </div>
-                    
+
                     <div className="absolute bottom-3 left-3 bg-black/85 border border-neutral-800 px-2.5 py-1 rounded text-[10px] font-mono flex gap-3 text-neutral-300">
                       <span>{feed.distance}</span>
                       <span>{feed.duration}</span>
@@ -974,7 +975,7 @@ export default function AppContainer() {
                   </div>
 
                   <div className="flex justify-between items-center pt-2 border-t border-neutral-800">
-                    <button 
+                    <button
                       onClick={() => handleRespectClick(feed.id)}
                       className="flex items-center gap-1.5 text-xs text-neutral-400 hover:text-[#39FF14] transition-colors"
                     >
@@ -983,14 +984,14 @@ export default function AppContainer() {
                     </button>
 
                     {/* 4. SNS 공유 템플릿 트리거 */}
-                    <button 
+                    <button
                       onClick={() => triggerSnsExport(feed.title, feed.distance, feed.duration, feed.ploggingWeight || 0)}
                       className="flex items-center gap-1 text-xs text-neutral-500 font-mono hover:underline"
                     >
                       <InstagramIcon size={11} /> Share Story
                     </button>
 
-                    <button 
+                    <button
                       onClick={() => showToast("댓글 기능은 다음 버전에서 구현됩니다.")}
                       className="text-xs text-neutral-500 font-mono hover:underline"
                     >
@@ -1004,7 +1005,7 @@ export default function AppContainer() {
 
           {/* 5. MY TAB */}
           {activeTab === "my" && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -1024,7 +1025,7 @@ export default function AppContainer() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <h3 className="text-xs font-mono text-neutral-500 uppercase">My Technical Gear</h3>
-                    <button 
+                    <button
                       onClick={() => showToast("노스페이스 제품 고유 시리얼 등록용 바코드 리더가 실행됩니다.")}
                       className="text-[10px] font-mono text-[#E2231A] hover:underline"
                     >
@@ -1034,22 +1035,20 @@ export default function AppContainer() {
 
                   <div className="grid grid-cols-2 gap-3">
                     {gears.map((gear) => (
-                      <div 
+                      <div
                         key={gear.id}
                         onClick={() => setActiveGearDetail(gear)}
-                        className={`p-3 border rounded-xl cursor-pointer text-left transition-colors relative overflow-hidden ${
-                          gear.status === "RECYCLED" 
-                          ? "bg-neutral-900/40 border-neutral-900 opacity-60 pointer-events-none" 
+                        className={`p-3 border rounded-xl cursor-pointer text-left transition-colors relative overflow-hidden ${gear.status === "RECYCLED"
+                          ? "bg-neutral-900/40 border-neutral-900 opacity-60 pointer-events-none"
                           : "bg-neutral-900 border-neutral-800 hover:border-neutral-700"
-                        }`}
+                          }`}
                       >
-                        <span className={`absolute top-2 right-2 text-[8px] font-mono px-1.5 py-0.5 rounded font-black ${
-                          gear.status === "ACTIVE" 
-                          ? "bg-[#39FF14]/15 text-[#39FF14] border border-[#39FF14]/30" 
+                        <span className={`absolute top-2 right-2 text-[8px] font-mono px-1.5 py-0.5 rounded font-black ${gear.status === "ACTIVE"
+                          ? "bg-[#39FF14]/15 text-[#39FF14] border border-[#39FF14]/30"
                           : gear.status === "REPAIR"
-                          ? "bg-yellow-500/10 text-yellow-500 border border-yellow-500/30"
-                          : "bg-neutral-800 text-neutral-500"
-                        }`}>
+                            ? "bg-yellow-500/10 text-yellow-500 border border-yellow-500/30"
+                            : "bg-neutral-800 text-neutral-500"
+                          }`}>
                           {gear.status}
                         </span>
 
@@ -1111,13 +1110,13 @@ export default function AppContainer() {
         {/* A. START SETUP MODAL (플로깅 체크 스위치 추가) */}
         <AnimatePresence>
           {showSetupModal && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center"
             >
-              <motion.div 
+              <motion.div
                 initial={{ y: 200 }}
                 animate={{ y: 0 }}
                 exit={{ y: 200 }}
@@ -1144,7 +1143,7 @@ export default function AppContainer() {
                     <span className="text-xs font-black text-white block">LNT 플로깅 모드 활성화</span>
                     <span className="text-[9px] text-neutral-500 block mt-0.5">등산 중 수거한 쓰레기 무게만큼 ESG 지수 반영</span>
                   </div>
-                  <button 
+                  <button
                     onClick={() => setIsLntMode(!isLntMode)}
                     className={`w-11 h-6 rounded-full p-1 transition-colors duration-200 focus:outline-none ${isLntMode ? "bg-[#39FF14]" : "bg-neutral-800"}`}
                   >
@@ -1156,14 +1155,13 @@ export default function AppContainer() {
                   <span className="text-[10px] font-mono text-neutral-500 uppercase block">2. Select Your Gear to Wear</span>
                   <div className="space-y-2">
                     {gears.filter(g => g.status !== "RECYCLED").map((gear) => (
-                      <div 
+                      <div
                         key={gear.id}
                         onClick={() => setSelectedGearId(gear.id)}
-                        className={`p-3 rounded-lg border text-left cursor-pointer flex justify-between items-center transition-colors ${
-                          selectedGearId === gear.id 
-                          ? "bg-neutral-900 border-[#E2231A]" 
+                        className={`p-3 rounded-lg border text-left cursor-pointer flex justify-between items-center transition-colors ${selectedGearId === gear.id
+                          ? "bg-neutral-900 border-[#E2231A]"
                           : "bg-neutral-950 border-neutral-850"
-                        }`}
+                          }`}
                       >
                         <span className="text-xs font-bold text-white">{gear.name}</span>
                         <span className="text-[10px] font-mono text-neutral-400">누적 {gear.distance}km</span>
@@ -1172,7 +1170,7 @@ export default function AppContainer() {
                   </div>
                 </div>
 
-                <button 
+                <button
                   onClick={triggerRecording}
                   className="w-full bg-[#E2231A] text-white py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs flex items-center justify-center gap-1.5"
                 >
@@ -1186,7 +1184,7 @@ export default function AppContainer() {
         {/* B. EXPEDITION SUMMARY OVERLAY (SNS 내보내기 버튼 탑재) */}
         <AnimatePresence>
           {showSummaryScreen && lastExpeditionSummary && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
@@ -1229,19 +1227,19 @@ export default function AppContainer() {
 
               <div className="space-y-3">
                 {/* 4. SNS 내보내기 버튼 추가 */}
-                <button 
+                <button
                   onClick={() => triggerSnsExport(lastExpeditionSummary.course, `${lastExpeditionSummary.distance} km`, formatTime(lastExpeditionSummary.time), lastExpeditionSummary.ploggingWeight)}
                   className="w-full bg-neutral-900 border border-[#39FF14]/30 text-[#39FF14] py-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5"
                 >
                   <InstagramIcon size={13} /> Instagram Story로 내보내기
                 </button>
-                <button 
+                <button
                   onClick={() => setShowJournalEditor(true)}
                   className="w-full bg-white text-black py-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5"
                 >
                   <FileText size={13} /> Expedition Journal 작성
                 </button>
-                <button 
+                <button
                   onClick={handlePublishJournal}
                   className="w-full bg-[#E2231A] text-white py-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5"
                 >
@@ -1255,7 +1253,7 @@ export default function AppContainer() {
         {/* C. SNS EXPORT 9:16 TEMPLATE POPUP */}
         <AnimatePresence>
           {showSnsExport && exportCardData && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -1270,7 +1268,7 @@ export default function AppContainer() {
 
               {/* 9:16 비율의 인스타그램 스토리 카드 레이아웃 */}
               <div className="w-[280px] h-[480px] bg-neutral-900 border border-neutral-850 rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden shadow-2xl">
-                
+
                 {/* 하프돔 오버레이 선 데코 */}
                 <div className="absolute right-[-30px] top-[-30px] w-48 h-48 border border-neutral-800/40 rounded-full pointer-events-none"></div>
 
@@ -1299,7 +1297,7 @@ export default function AppContainer() {
                 <div className="text-left space-y-2">
                   <span className="text-[9px] font-mono text-neutral-500 block uppercase">Expedition Record</span>
                   <h4 className="text-base font-black text-white leading-tight">{exportCardData.courseName}</h4>
-                  
+
                   <div className="grid grid-cols-2 gap-2 text-left border-t border-neutral-850 pt-2 font-mono">
                     <div>
                       <span className="text-[8px] text-neutral-500 block">DISTANCE</span>
@@ -1325,7 +1323,7 @@ export default function AppContainer() {
                 </div>
               </div>
 
-              <button 
+              <button
                 onClick={() => {
                   showToast("갤러리에 스토리 포스터 카드가 저장되었습니다.");
                   setShowSnsExport(false);
@@ -1341,7 +1339,7 @@ export default function AppContainer() {
         {/* D. SELF CARE DIAGNOSIS MODAL (수선 전 자가 점검표) */}
         <AnimatePresence>
           {showSelfCheck && activeGearDetail && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -1364,11 +1362,10 @@ export default function AppContainer() {
 
                 {/* 3대 점검 문항 */}
                 <div className="space-y-3">
-                  <div 
+                  <div
                     onClick={() => setSelfCheckAnswers(prev => ({ ...prev, fabric: !prev.fabric }))}
-                    className={`p-3.5 rounded-lg border cursor-pointer flex items-center gap-3 transition-colors ${
-                      selfCheckAnswers.fabric ? "bg-neutral-900 border-[#E2231A]" : "bg-neutral-950 border-neutral-800"
-                    }`}
+                    className={`p-3.5 rounded-lg border cursor-pointer flex items-center gap-3 transition-colors ${selfCheckAnswers.fabric ? "bg-neutral-900 border-[#E2231A]" : "bg-neutral-950 border-neutral-800"
+                      }`}
                   >
                     <div className={`w-4 h-4 rounded border flex items-center justify-center ${selfCheckAnswers.fabric ? "bg-[#E2231A] border-[#E2231A]" : "border-neutral-700"}`}>
                       {selfCheckAnswers.fabric && <Check size={10} className="text-white" />}
@@ -1379,11 +1376,10 @@ export default function AppContainer() {
                     </div>
                   </div>
 
-                  <div 
+                  <div
                     onClick={() => setSelfCheckAnswers(prev => ({ ...prev, seamSealing: !prev.seamSealing }))}
-                    className={`p-3.5 rounded-lg border cursor-pointer flex items-center gap-3 transition-colors ${
-                      selfCheckAnswers.seamSealing ? "bg-neutral-900 border-[#E2231A]" : "bg-neutral-950 border-neutral-800"
-                    }`}
+                    className={`p-3.5 rounded-lg border cursor-pointer flex items-center gap-3 transition-colors ${selfCheckAnswers.seamSealing ? "bg-neutral-900 border-[#E2231A]" : "bg-neutral-950 border-neutral-800"
+                      }`}
                   >
                     <div className={`w-4 h-4 rounded border flex items-center justify-center ${selfCheckAnswers.seamSealing ? "bg-[#E2231A] border-[#E2231A]" : "border-neutral-700"}`}>
                       {selfCheckAnswers.seamSealing && <Check size={10} className="text-white" />}
@@ -1394,11 +1390,10 @@ export default function AppContainer() {
                     </div>
                   </div>
 
-                  <div 
+                  <div
                     onClick={() => setSelfCheckAnswers(prev => ({ ...prev, zipper: !prev.zipper }))}
-                    className={`p-3.5 rounded-lg border cursor-pointer flex items-center gap-3 transition-colors ${
-                      selfCheckAnswers.zipper ? "bg-neutral-900 border-[#E2231A]" : "bg-neutral-950 border-neutral-800"
-                    }`}
+                    className={`p-3.5 rounded-lg border cursor-pointer flex items-center gap-3 transition-colors ${selfCheckAnswers.zipper ? "bg-neutral-900 border-[#E2231A]" : "bg-neutral-950 border-neutral-800"
+                      }`}
                   >
                     <div className={`w-4 h-4 rounded border flex items-center justify-center ${selfCheckAnswers.zipper ? "bg-[#E2231A] border-[#E2231A]" : "border-neutral-700"}`}>
                       {selfCheckAnswers.zipper && <Check size={10} className="text-white" />}
@@ -1419,7 +1414,7 @@ export default function AppContainer() {
                 )}
               </div>
 
-              <button 
+              <button
                 onClick={handleSelfCheckSubmit}
                 className="w-full bg-white text-black py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs"
               >
@@ -1432,13 +1427,13 @@ export default function AppContainer() {
         {/* E. ☰ MENU DRAWER (데모 데이터 리셋 버튼 추가) */}
         <AnimatePresence>
           {showDrawer && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex justify-start"
             >
-              <motion.div 
+              <motion.div
                 initial={{ x: -280 }}
                 animate={{ x: 0 }}
                 exit={{ x: -280 }}
@@ -1462,7 +1457,7 @@ export default function AppContainer() {
                 </div>
 
                 {/* 가상의 데모 초기화 버튼 */}
-                <button 
+                <button
                   onClick={handleResetDemoData}
                   className="w-full bg-neutral-900 border border-neutral-800 text-neutral-400 py-3 rounded-lg text-xs font-bold font-mono flex items-center justify-center gap-1.5 hover:border-red-900 hover:text-white transition-colors"
                 >
@@ -1476,13 +1471,13 @@ export default function AppContainer() {
         {/* F. GEAR DETAIL / PASSPORT SHEET */}
         <AnimatePresence>
           {activeGearDetail && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="absolute inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-end justify-center"
             >
-              <motion.div 
+              <motion.div
                 initial={{ y: 300 }}
                 animate={{ y: 0 }}
                 exit={{ y: 300 }}
@@ -1503,13 +1498,12 @@ export default function AppContainer() {
                       <h3 className="text-base font-black text-white">{activeGearDetail.name}</h3>
                       <span className="text-[9px] font-mono text-neutral-500 block mt-0.5">Passport ID: {activeGearDetail.passportId}</span>
                     </div>
-                    <span className={`text-[9px] font-mono px-2 py-0.5 rounded font-bold ${
-                      activeGearDetail.status === "ACTIVE" 
-                      ? "bg-[#39FF14]/15 text-[#39FF14] border border-[#39FF14]/30" 
+                    <span className={`text-[9px] font-mono px-2 py-0.5 rounded font-bold ${activeGearDetail.status === "ACTIVE"
+                      ? "bg-[#39FF14]/15 text-[#39FF14] border border-[#39FF14]/30"
                       : activeGearDetail.status === "REPAIR"
-                      ? "bg-yellow-500/10 text-yellow-500 border border-yellow-500/30"
-                      : "bg-neutral-800 text-neutral-500"
-                    }`}>
+                        ? "bg-yellow-500/10 text-yellow-500 border border-yellow-500/30"
+                        : "bg-neutral-800 text-neutral-500"
+                      }`}>
                       {activeGearDetail.status}
                     </span>
                   </div>
@@ -1578,13 +1572,13 @@ export default function AppContainer() {
                 {activeGearDetail.status === "ACTIVE" && (
                   <div className="grid grid-cols-2 gap-4">
                     {/* 3. 자가상태점검 팝업 트리거 추가 */}
-                    <button 
+                    <button
                       onClick={() => setShowSelfCheck(true)}
                       className="bg-neutral-900 border border-neutral-800 text-white py-3 rounded-xl text-xs font-bold"
                     >
                       🔧 Repair (수선 신청)
                     </button>
-                    <button 
+                    <button
                       onClick={() => setShowReturnModal(true)}
                       className="bg-[#E2231A] text-white py-3 rounded-xl text-xs font-bold"
                     >
@@ -1600,7 +1594,7 @@ export default function AppContainer() {
         {/* G. SUMMIT CYCLE MODAL */}
         <AnimatePresence>
           {showReturnModal && activeGearDetail && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -1622,14 +1616,13 @@ export default function AppContainer() {
 
                 <div className="space-y-3">
                   <span className="text-[10px] font-mono text-neutral-500 uppercase block">반납 방식 선택</span>
-                  
-                  <div 
+
+                  <div
                     onClick={() => setReturnMethod("store")}
-                    className={`p-4 rounded-xl border cursor-pointer transition-colors ${
-                      returnMethod === "store" 
-                      ? "bg-neutral-900 border-[#E2231A]" 
+                    className={`p-4 rounded-xl border cursor-pointer transition-colors ${returnMethod === "store"
+                      ? "bg-neutral-900 border-[#E2231A]"
                       : "bg-neutral-950 border-neutral-800"
-                    }`}
+                      }`}
                   >
                     <h5 className="text-xs font-black text-white">오프라인 매장 방문 반납</h5>
                     <p className="text-[10px] text-neutral-500 mt-1 leading-relaxed">
@@ -1637,13 +1630,12 @@ export default function AppContainer() {
                     </p>
                   </div>
 
-                  <div 
+                  <div
                     onClick={() => setReturnMethod("pickup")}
-                    className={`p-4 rounded-xl border cursor-pointer transition-colors ${
-                      returnMethod === "pickup" 
-                      ? "bg-neutral-900 border-[#E2231A]" 
+                    className={`p-4 rounded-xl border cursor-pointer transition-colors ${returnMethod === "pickup"
+                      ? "bg-neutral-900 border-[#E2231A]"
                       : "bg-neutral-950 border-neutral-800"
-                    }`}
+                      }`}
                   >
                     <h5 className="text-xs font-black text-white">온라인 택배 수거 신청</h5>
                     <p className="text-[10px] text-neutral-500 mt-1 leading-relaxed">
@@ -1653,7 +1645,7 @@ export default function AppContainer() {
                 </div>
               </div>
 
-              <button 
+              <button
                 onClick={() => returnMethod === "store" ? setShowQRModal(true) : handleReturnConfirm()}
                 disabled={!returnMethod}
                 className="w-full bg-[#E2231A] disabled:bg-neutral-900 text-white disabled:text-neutral-600 py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs flex items-center justify-center gap-1.5"
@@ -1667,7 +1659,7 @@ export default function AppContainer() {
         {/* H. STORE RETURN QR MODAL */}
         <AnimatePresence>
           {showQRModal && activeGearDetail && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -1698,7 +1690,7 @@ export default function AppContainer() {
                 </div>
               </div>
 
-              <button 
+              <button
                 onClick={handleReturnConfirm}
                 className="w-full bg-[#39FF14] text-black py-3.5 rounded-xl font-black uppercase tracking-wider text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-[#39FF14]/20"
               >
@@ -1711,7 +1703,7 @@ export default function AppContainer() {
         {/* I. JOURNAL EDITOR MODAL */}
         <AnimatePresence>
           {showJournalEditor && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -1727,7 +1719,7 @@ export default function AppContainer() {
 
                 <div className="space-y-3">
                   <span className="text-[10px] font-mono text-neutral-500 uppercase block">Expedition Review (한줄 소감)</span>
-                  <textarea 
+                  <textarea
                     value={journalContent}
                     onChange={(e) => setJournalContent(e.target.value)}
                     placeholder="정상에서의 짜릿한 기분이나, Summit 장비의 투습 및 접지 소감을 한 줄 작성해 보세요."
@@ -1741,7 +1733,7 @@ export default function AppContainer() {
                 </div>
               </div>
 
-              <button 
+              <button
                 onClick={handlePublishJournal}
                 className="w-full bg-[#E2231A] text-white py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs flex items-center justify-center gap-1.5"
               >
@@ -1753,7 +1745,7 @@ export default function AppContainer() {
 
         {/* 하단 탭바 네비게이션 */}
         <nav className="absolute bottom-0 left-0 w-full bg-black/90 backdrop-blur-md border-t border-neutral-900 grid grid-cols-5 py-3 z-40">
-          <button 
+          <button
             onClick={() => setActiveTab("home")}
             className={`flex flex-col items-center gap-1 ${activeTab === "home" ? "text-white" : "text-neutral-500"}`}
           >
@@ -1761,7 +1753,7 @@ export default function AppContainer() {
             <span className="text-[9px] font-mono">HOME</span>
           </button>
 
-          <button 
+          <button
             onClick={() => setActiveTab("explore")}
             className={`flex flex-col items-center gap-1 ${activeTab === "explore" ? "text-white" : "text-neutral-500"}`}
           >
@@ -1771,7 +1763,7 @@ export default function AppContainer() {
 
           {/* 중앙 FAB */}
           <div className="relative flex justify-center -top-5">
-            <motion.button 
+            <motion.button
               whileTap={{ scale: 0.93 }}
               onClick={() => setActiveTab("record")}
               className="absolute w-12 h-12 bg-black border border-neutral-800 rounded-full flex items-center justify-center shadow-lg shadow-black/80 group"
@@ -1783,7 +1775,7 @@ export default function AppContainer() {
             <span className="absolute top-9 text-[9px] font-mono text-neutral-500">RECORD</span>
           </div>
 
-          <button 
+          <button
             onClick={() => setActiveTab("community")}
             className={`flex flex-col items-center gap-1 ${activeTab === "community" ? "text-white" : "text-neutral-500"}`}
           >
@@ -1791,7 +1783,7 @@ export default function AppContainer() {
             <span className="text-[9px] font-mono">COMMUNITY</span>
           </button>
 
-          <button 
+          <button
             onClick={() => setActiveTab("my")}
             className={`flex flex-col items-center gap-1 ${activeTab === "my" ? "text-white" : "text-neutral-500"}`}
           >
