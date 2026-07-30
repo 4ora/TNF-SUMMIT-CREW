@@ -548,15 +548,7 @@ export default function AppContainer() {
       {/* 390px 모바일 뷰포트 프레임 */}
       <div className="w-full max-w-[390px] h-[844px] bg-black border-x border-neutral-900 shadow-2xl relative flex flex-col justify-between overflow-hidden rounded-[40px]">
 
-        {/* 상단 노치 바 데코 */}
-        <div className="w-full h-7 bg-black flex justify-between items-center px-6 text-[11px] font-mono text-neutral-500 z-50">
-          <span>01:07</span>
-          <div className="w-16 h-4 bg-neutral-900 rounded-full mx-auto"></div>
-          <div className="flex items-center gap-1">
-            <span>5G</span>
-            <div className="w-4 h-2 border border-neutral-600 rounded-sm"></div>
-          </div>
-        </div>
+
 
         {/* 상단 헤더 */}
         <header className="flex items-center justify-between px-4 py-3 border-b border-neutral-900 bg-black/85 backdrop-blur-md sticky top-0 z-40">
