@@ -130,7 +130,7 @@ export default function AppContainer() {
   const [feedList, setFeedList] = useState<FeedItem[]>([
     {
       id: "feed-1",
-      author: "Explorer_Jobora",
+      author: "Explorer_Junho",
       level: 3,
       title: "북한산 신선대 트레일러닝 완료",
       location: "Bukhansan, Seoul",
@@ -375,7 +375,7 @@ export default function AppContainer() {
     // 1. 새로운 커뮤니티 피드 업로드
     const newFeed: FeedItem = {
       id: `feed-${Date.now()}`,
-      author: "Explorer_Jobora",
+      author: "Explorer_Junho",
       level: 3,
       title: `${lastExpeditionSummary.course} 완주 기록`,
       location: "Bukhansan, Seoul",
@@ -592,7 +592,7 @@ export default function AppContainer() {
             >
               <div className="space-y-1">
                 <span className="text-[10px] uppercase tracking-widest text-neutral-500 font-bold font-mono">Summit Crew Edition</span>
-                <h1 className="text-2xl font-black tracking-tight text-white">Good Morning, 조보라.</h1>
+                <h1 className="text-2xl font-black tracking-tight text-white">Good Morning, 이준호.</h1>
               </div>
 
               {/* 날씨 및 위치 */}
@@ -1008,7 +1008,7 @@ export default function AppContainer() {
                   J
                 </div>
                 <div>
-                  <h3 className="text-sm font-black text-white">조보라</h3>
+                  <h3 className="text-sm font-black text-white">이준호</h3>
                   <p className="text-[10px] font-mono text-neutral-500 uppercase">SUMMIT CREW MEMBER // LEVEL 3</p>
                 </div>
               </div>
